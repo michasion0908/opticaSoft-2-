@@ -6,7 +6,7 @@ import { FaEdit, FaTrash, FaPlus, FaSearch, FaList, FaCashRegister } from "react
 import { getVentasjs, createVentasjs, updateVentasjs, deleteVentasjs } 
 from '../../assets/js/Venta.js';
 
-import { VentaCRUD } from './VentaCRUD.JSX'; 
+import { VentaCRUD } from './VentaCRUD.jsx'; 
 
 function Venta() {
     // Campos de la tabla Venta
