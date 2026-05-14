@@ -67,7 +67,7 @@ app.use(helmet({
 
 // 3. Configuración CORS más segura (ajustar según necesidades)
 app.use(cors({
-  origin: true, // Permite cualquier origen (ajustar en producción)
+  origin: process.env.CLIENT_URL || true, // Permite cualquier origen (ajustar en producción)
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   allowedHeaders: ["Content-Type"],
   exposedHeaders: [],
