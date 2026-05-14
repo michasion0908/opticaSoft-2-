@@ -1,0 +1,50 @@
+/* Estilo general del sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Título del menú */
+.sidebar-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Lista de elementos del menú */
+.sidebar-menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Elementos individuales del menú */
+.sidebar-menu li {
+    margin: 15px 0;
+}
+
+/* Enlaces del menú */
+.sidebar-menu li a {
+    text-decoration: none;
+    color: #ecf0f1;
+    font-size: 1em;
+    padding: 10px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover en los enlaces */
+.sidebar-menu li a:hover {
+    background-color: #34495e;
+}

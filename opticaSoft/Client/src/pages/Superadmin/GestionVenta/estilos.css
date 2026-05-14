@@ -1,0 +1,577 @@
+/* Estilos generales */
+.cotizacion-container {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+}
+
+/* Breadcrumbs */
+.custom-breadcrumb {
+  margin-bottom: 2rem;
+}
+
+.custom-breadcrumb .breadcrumb {
+  background-color: transparent;
+  padding: 0;
+}
+
+.custom-breadcrumb .breadcrumb-item a {
+  color: #6c757d;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.custom-breadcrumb .breadcrumb-item a:hover {
+  color: #5e72e4;
+}
+
+.custom-breadcrumb .breadcrumb-item.active {
+  color: #495057;
+  font-weight: 500;
+}
+
+/* Tarjetas */
+.card {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.bg-gradient-primary {
+  /* background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%); */
+  background: linear-gradient(135deg, #5e72e4 0%, #00d2ff 100%);
+}
+
+/* Sección de paciente */
+.patient-section {
+  padding: 1.5rem;
+}
+
+.section-title {
+  color: #495057;
+  margin-bottom: 1.5rem;
+}
+
+.icon-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-primary-light {
+  background-color: rgba(13, 110, 253, 0.1);
+}
+
+.text-primary {
+  color: #5e72e4 !important;
+}
+
+.info-card {
+  background-color: #f8f9fa;
+  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.info-card label {
+  font-size: 0.75rem;
+  color: #6c757d;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.info-card .value {
+  margin-bottom: 0;
+  font-size: 0.9rem;
+  color: #212529;
+}
+
+/* Sección de pedidos */
+.pedidos-section {
+  padding: 1.5rem;
+}
+
+.pedidos-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.pedido-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  border-left: 4px solid #0d6efd;
+  box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+  overflow: hidden;
+}
+
+.pedido-header {
+  padding: 0.75rem 1rem;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.pedido-number {
+  font-weight: 600;
+  color: #212529;
+}
+
+.delivery-date {
+  font-size: 0.8rem;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+}
+
+.pedido-actions .btn-icon {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.pedido-content {
+  padding: 1rem;
+}
+
+.section-subtitle {
+  font-size: 0.75rem;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.75rem;
+}
+
+.productos-list, .tratamientos-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1rem;
+}
+
+.producto-item, .tratamiento-item {
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed #e9ecef;
+}
+
+.producto-item:last-child, .tratamiento-item:last-child {
+  border-bottom: none;
+}
+
+.price-badge {
+  background-color: rgba(25, 135, 84, 0.1);
+  color: #198754;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+}
+
+.producto-details {
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-top: 0.25rem;
+}
+
+.observaciones {
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: #f8f9fa;
+  border-radius: 0.25rem;
+}
+
+.btn-add-tratamiento {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.pedido-summary {
+  padding-top: 0.75rem;
+  margin-top: 0.75rem;
+  border-top: 1px solid #e9ecef;
+  font-size: 0.9rem;
+}
+
+.pedido-summary .quantity {
+  color: #6c757d;
+}
+
+.pedido-summary .total {
+  font-weight: 600;
+  color: #212529;
+}
+
+/* Estado vacío */
+.empty-state {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.empty-icon {
+  margin-bottom: 1rem;
+}
+
+.empty-title {
+  font-size: 1.1rem;
+  color: #212529;
+  margin-bottom: 0.5rem;
+}
+
+.empty-text {
+  color: #6c757d;
+  margin-bottom: 1.5rem;
+}
+
+/* Sección de resumen */
+.summary-section {
+  background-color: #f8f9fa;
+}
+
+.notes-section textarea {
+  resize: none;
+}
+
+.discount-section .input-group {
+  max-width: 200px;
+}
+
+.iva-switch {
+  display: flex;
+  align-items: center;
+}
+
+.iva-switch .form-check-input {
+  width: 3em;
+  margin-right: 0.5rem;
+}
+
+.totals-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+}
+
+.total-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed #e9ecef;
+}
+
+.total-item:last-child {
+  border-bottom: none;
+}
+
+.grand-total {
+  font-weight: 600;
+  color: #212529;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.actions-section .btn {
+  min-width: 120px;
+}
+
+/* Panel de venta */
+.sale-card {
+  position: sticky;
+  top: 1rem;
+}
+
+.quote-summary {
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.sale-status {
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.payment-method {
+  margin-bottom: 1.5rem;
+}
+
+.payment-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.payment-option {
+  border: 1px solid #dee2e6;
+  background-color: white;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.payment-option:hover {
+  border-color: #adb5bd;
+}
+
+.payment-option.active {
+  background-color: #5e72e4;
+  color: white;
+  border-color: #0d6efd;
+}
+
+.payment-details {
+  margin-bottom: 1.5rem;
+}
+
+.payment-summary {
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.payment-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0;
+}
+
+.payment-item.total {
+  font-weight: 600;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.sale-actions .btn {
+  margin-top: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .payment-options {
+    grid-template-columns: 1fr;
+  }
+  
+  .sale-card {
+    position: static;
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .cotizacion-container {
+    padding: 1rem;
+  }
+  
+  .info-card {
+    margin-bottom: 1rem;
+  }
+  
+  .actions-section {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .actions-section .btn {
+    width: 100%;
+  }
+}
+
+
+/* Variables de color */
+:root {
+  --primary-color: #5e72e4;
+  --primary-light: rgba(94, 114, 228, 0.1);
+  --primary-dark: #4a5bd6;
+  --secondary-color: #f7fafc;
+  --success-color: #2dce89;
+  --danger-color: #f5365c;
+  --warning-color: #fb6340;
+  --info-color: #11cdef;
+}
+
+/* Estilos generales */
+.cotizacion-container {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+}
+
+/* Efecto hover para botones */
+.btn-hover-effect {
+  transition: all 0.3s ease;
+  transform: translateY(0);
+}
+
+.btn-hover-effect:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Gradiente personalizado */
+.bg-primary-gradient {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #825ee4 100%);
+}
+
+/* Breadcrumbs */
+.custom-breadcrumb .breadcrumb-item a {
+  color: #6c757d;
+}
+
+.custom-breadcrumb .breadcrumb-item a:hover {
+  color: var(--primary-color);
+}
+
+/* Tarjetas */
+.card {
+  border: none;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.03);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08);
+}
+
+/* Botones */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Alertas */
+.alert-primary {
+  background-color: var(--primary-light);
+  border-color: var(--primary-color);
+  color: var(--primary-dark);
+}
+
+/* Badges */
+.badge.bg-primary-light {
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+  font-weight: 500;
+  padding: 0.35rem 0.75rem;
+}
+
+/* Icon circles */
+.icon-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+}
+
+/* Sección de pedidos */
+.pedido-card {
+  border-left: 4px solid var(--primary-color);
+  transition: transform 0.3s ease;
+}
+
+.pedido-card:hover {
+  transform: translateY(-3px);
+}
+
+.pedido-number {
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+/* Price badge */
+.price-badge {
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+}
+
+/* Sección de totales */
+.totals-card {
+  border: 1px solid rgba(94, 114, 228, 0.15);
+}
+
+.grand-total {
+  color: var(--primary-color);
+}
+
+/* Métodos de pago */
+.payment-option.active {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Efecto hover para tarjetas de pedido */
+.pedido-card {
+  transition: all 0.3s ease;
+}
+
+.pedido-card:hover {
+  box-shadow: 0 0.5rem 1.5rem rgba(94, 114, 228, 0.1);
+}
+
+/* Input focus */
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(94, 114, 228, 0.25);
+}
+
+/* Switch personalizado */
+.iva-switch .form-check-input:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Botón de éxito */
+.btn-success {
+  background-color: var(--success-color);
+  border-color: var(--success-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card {
+    border-radius: 0.375rem;
+  }
+  
+  .pedido-card {
+    border-left-width: 3px;
+  }
+}
