@@ -5,7 +5,7 @@ import { FaEdit, FaTrash, FaPlus, FaSearch, FaList, FaCashRegister, FaCalendarAl
 import { IoMdClose, IoMdArrowDropdown } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
 import { getVentasjs, createVentasjs, updateVentasjs, deleteVentasjs } from '../../../assets/js/Venta.js';
-import { VentaCRUD } from './../VentaCRUD.JSX';
+import { VentaCRUD } from './../VentaCRUD.jsx';
 
 function Venta() {
   // Estado del formulario
