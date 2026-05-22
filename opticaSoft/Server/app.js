@@ -66,8 +66,12 @@ app.use(helmet({
 }));
 
 // 3. Configuración CORS más segura (ajustar según necesidades)
+// 3. Configuración CORS más segura (ajustar según necesidades)
 app.use(cors({
-  origin: process.env.CLIENT_URL || true, // Permite cualquier origen (ajustar en producción)
+  origin: [
+    process.env.CLIENT_URL || 'https://optica-soft-2-bbwz.vercel.app',
+    'http://localhost:5173'
+  ],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   allowedHeaders: ["Content-Type"],
   exposedHeaders: [],
