@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 import Home from './pages/Superadmin/home.jsx';
 
@@ -27,68 +28,72 @@ import PaqueteDetalle from './pages/Superadmin/PaqueteDetalle.jsx';
 // -------------------- Gestión de Citas -------------------- //
 import Citas from './pages/Superadmin/Cita.jsx';
 
-//-------------------- Ventas -------------------- //
+// -------------------- Ventas -------------------- //
 import Precios from './pages/Superadmin/Precios.jsx';
 import Cotizacion from './pages/Superadmin/Cotizacion.jsx';
 import Pedidos from './pages/Superadmin/Pedidos.jsx';
 import PedidosTratamientos from './pages/Superadmin/PedidosTratamientos.jsx';
 import Venta from './pages/Superadmin/Venta.jsx';
 
+// -------------------- Gastos -------------------- //
+import Gasto from './pages/Superadmin/Gasto/Gasto.jsx';
+
+
 // -------------------- Gestión de Ventas -------------------- //
 import GestionVenta from './pages/Superadmin/GestionVenta/GestionVenta.jsx';
 import GestionCotizacion from './pages/Superadmin/GestionVenta/Cotizacion.jsx';
 import HistorialVenta from './pages/Superadmin/GestionVenta/Venta.jsx';
 
-// -------------------- Gestión de Usuarios -------------------- //
+// -------------------- Login y NotFound -------------------- //
 import NotFound from './pages/Superadmin/NotFound.jsx';
 import Login from './pages/Login/Login.jsx';
 
 export default function AppRoutes() {
   return (
     <Routes>
+      {/* Ruta pública */}
       <Route path="/" element={<Login />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/pacientes" element={<Paciente />} />
-      <Route path="/pacienteHistorial" element={<PacienteHistorial />} />
-      <Route path="/examenVista" element={<ExamenVista />} />
-      <Route path="/receta" element={<Receta />} />
-      <Route path="/gestionPacientes" element={<GestionPacientes />} />
-      <Route path="/prueba" element={<Prueba />} />
 
-      {/* -------------------- Gestión Inventario -------------------- */}  
-      <Route path="/inventario" element={<Inventario />} />
-      <Route path="/tratamientos" element={<Tratamientos />} />
-      <Route path="/material" element={<Material />} />
-      <Route path="/tipoLente" element={<TipoLente />} />
-      <Route path="/lentesContacto" element={<LentesContacto />} />
+      {/* Rutas protegidas */}
+      <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+      <Route path="/pacientes" element={<ProtectedRoute><Paciente /></ProtectedRoute>} />
+      <Route path="/pacienteHistorial" element={<ProtectedRoute><PacienteHistorial /></ProtectedRoute>} />
+      <Route path="/examenVista" element={<ProtectedRoute><ExamenVista /></ProtectedRoute>} />
+      <Route path="/receta" element={<ProtectedRoute><Receta /></ProtectedRoute>} />
+      <Route path="/gestionPacientes" element={<ProtectedRoute><GestionPacientes /></ProtectedRoute>} />
+      <Route path="/prueba" element={<ProtectedRoute><Prueba /></ProtectedRoute>} />
 
-      {/* -------------------- Gestión de Ventas -------------------- */}
-      <Route path="/precios" element={<Precios />} />
-      <Route path="/cotizacion" element={<Cotizacion />} />
-      <Route path="/pedidos" element={<Pedidos />} />
-      <Route path="/ventas" element={<Venta />} />
-      <Route path="/pedidosTratamientos" element={<PedidosTratamientos />} />
-      <Route path="/gestionVenta" element={<GestionVenta />} />
+      {/* Inventario */}
+      <Route path="/inventario" element={<ProtectedRoute><Inventario /></ProtectedRoute>} />
+      <Route path="/tratamientos" element={<ProtectedRoute><Tratamientos /></ProtectedRoute>} />
+      <Route path="/material" element={<ProtectedRoute><Material /></ProtectedRoute>} />
+      <Route path="/tipoLente" element={<ProtectedRoute><TipoLente /></ProtectedRoute>} />
+      <Route path="/lentesContacto" element={<ProtectedRoute><LentesContacto /></ProtectedRoute>} />
 
-      {/* -------------------- Gestión de Cotizaciones -------------------- */}
-      <Route path="/gestionCotizacion" element={<GestionCotizacion />} />
-      <Route path="/historialVenta" element={<HistorialVenta />} />
+      {/* Ventas */}
+      <Route path="/precios" element={<ProtectedRoute><Precios /></ProtectedRoute>} />
+      <Route path="/cotizacion" element={<ProtectedRoute><Cotizacion /></ProtectedRoute>} />
+      <Route path="/pedidos" element={<ProtectedRoute><Pedidos /></ProtectedRoute>} />
+      <Route path="/ventas" element={<ProtectedRoute><Venta /></ProtectedRoute>} />
+      <Route path="/pedidosTratamientos" element={<ProtectedRoute><PedidosTratamientos /></ProtectedRoute>} />
+      <Route path="/gestionVenta" element={<ProtectedRoute><GestionVenta /></ProtectedRoute>} />
+      <Route path="/gestionCotizacion" element={<ProtectedRoute><GestionCotizacion /></ProtectedRoute>} />
+      <Route path="/historialVenta" element={<ProtectedRoute><HistorialVenta /></ProtectedRoute>} />
 
-      {/* -------------------- Gestión de Citas -------------------- */}
-      <Route path="/citas" element={<Citas />} />
+      {/* Gastos */}
+      <Route path="/gastos" element={<ProtectedRoute><Gasto /></ProtectedRoute>} />
 
-      {/* -------------------- Gestión de Paquetes -------------------- */}
-      <Route path="/paquetes" element={<Paquete />} />
-      <Route path="/paqueteDetalle" element={<PaqueteDetalle />} /> 
+      {/* Citas */}
+      <Route path="/citas" element={<ProtectedRoute><Citas /></ProtectedRoute>} />
 
-      {/* -------------------- Gestión de Usuarios -------------------- */}
+      {/* Paquetes */}
+      <Route path="/paquetes" element={<ProtectedRoute><Paquete /></ProtectedRoute>} />
+      <Route path="/paqueteDetalle" element={<ProtectedRoute><PaqueteDetalle /></ProtectedRoute>} />
 
-      {/* -------------------- Gestión de Optometristas -------------------- */}
-      <Route path="/optometristas" element={<Optometrista />} />
+      {/* Optometristas */}
+      <Route path="/optometristas" element={<ProtectedRoute><Optometrista /></ProtectedRoute>} />
 
-      <Route path="/citas" element={<Citas />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
-

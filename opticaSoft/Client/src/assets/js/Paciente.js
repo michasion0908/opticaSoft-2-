@@ -3,11 +3,24 @@ import Swal from 'sweetalert2';
 import {getPaciente, createPaciente, updatePaciente, deletePaciente} 
 from "../../api/Paciente.api.js";
 
+const ordenarPacientesRecientesPrimero = (pacientes = []) => {
+  return [...pacientes].sort((a, b) => {
+    const fechaA = new Date(a.fechaRegistro).getTime();
+    const fechaB = new Date(b.fechaRegistro).getTime();
+
+    if (!Number.isNaN(fechaA) && !Number.isNaN(fechaB) && fechaA !== fechaB) {
+      return fechaB - fechaA;
+    }
+
+    return (Number(b.idPaciente) || 0) - (Number(a.idPaciente) || 0);
+  });
+};
+
 //Mostrar los pacientes con animación
 export const getPacientejs = async (setPacientejs) => {
   try {
     const data = await getPaciente();
-    setPacientejs(data);
+    setPacientejs(ordenarPacientesRecientesPrimero(data));
   } catch (error) {
     console.error('Error al obtener los Pacientes:', error);
     Swal.fire({

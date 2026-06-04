@@ -4,7 +4,7 @@ import {
   FaHome, FaAddressBook, FaEye, FaGlasses, FaUsersCog, 
   FaFlask, FaCalendarAlt, FaFileInvoiceDollar, 
   FaShoppingCart, FaUserMd, FaUsers, FaClipboardList,
-  FaBoxes, FaChevronDown, FaChevronRight
+  FaBoxes, FaChevronDown, FaChevronRight, FaMoneyBillWave
 } from 'react-icons/fa';
 import './Sidebar.css';
 import PropTypes from 'prop-types';
@@ -62,7 +62,7 @@ const Sidebar = ({ isOpen }) => {
     //{ id: 'usuarios', name: 'Usuarios', icon: <FaUsers />, path: '/usuarios', submenu: false }, 
 
 
-    { 
+{ 
       id: 'gestionVentas', 
       name: 'Gestión de Ventas',
       icon: <FaShoppingCart />, 
@@ -71,7 +71,7 @@ const Sidebar = ({ isOpen }) => {
         { id: 'Ventas', name: 'Historial de ventas', icon: <FaShoppingCart />, path: '/historialVenta' }
       ]
     },
-
+    { id: 'gastos', name: 'Gestión de Gastos', icon: <FaMoneyBillWave />, path: '/gastos', submenu: false },
   ];
 
   const toggleMenu = (menuId) => {

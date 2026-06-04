@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 
 // Importación de componentes y estilos
 import Navbar from './components/Navbar/Navbar.jsx';
@@ -15,6 +16,17 @@ import './App.css';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const location = useLocation();
+  const isLoginPage = location.pathname === '/';
+  const isAuthenticated = Boolean(localStorage.getItem('usuario'));
+
+  if (isLoginPage) {
+    return <AppRoutes />;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className="app">

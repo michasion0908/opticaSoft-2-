@@ -38,6 +38,9 @@ import VentasRoutes from "./routes/Venta.Routes.js";
 // Citas
 import CitasRoutes from "./routes/Cita.Routes.js";
 
+// Gastos
+import GastoRoutes from "./routes/Gasto.Routes.js";
+
 //---------------------------------- CREACIÓN DE LA APLICACIÓN --------------------------------------------
 const app = express();
 
@@ -144,6 +147,9 @@ app.use("/PedidosTratamientos", PedidosTratamientosRoutes);
 
 // Citas
 app.use("/Citas", CitasRoutes);
+
+// Gastos
+app.use("/Gasto", GastoRoutes);
 
 // 9. Manejo de rutas no encontradas
 app.use((req, res) => {

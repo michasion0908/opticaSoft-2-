@@ -9,9 +9,47 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/home.css';
 
-import { getInventariojs } from '../../assets/js/Inventario.js';
 import { getVentasjs } from '../../assets/js/Venta.js';
 import { getCitasJs } from '../../assets/js/Cita.js';
+import { getPaciente } from '../../api/Paciente.api.js';
+import { getInventario } from '../../api/Inventario.api.js';
+import { getMaterial } from '../../api/Material.api.js';
+import { getLentesContacto } from '../../api/LentesContacto.api.js';
+import { getGastosjs } from '../../assets/js/Gasto.js';
+
+const toValidDate = (value) => {
+  const date = value ? new Date(value) : null;
+  return date && !Number.isNaN(date.getTime()) ? date : null;
+};
+
+const isSameDay = (value, reference = new Date()) => {
+  const date = toValidDate(value);
+  return Boolean(date) &&
+    date.getFullYear() === reference.getFullYear() &&
+    date.getMonth() === reference.getMonth() &&
+    date.getDate() === reference.getDate();
+};
+
+const isSameMonth = (value, reference = new Date()) => {
+  const date = toValidDate(value);
+  return Boolean(date) &&
+    date.getFullYear() === reference.getFullYear() &&
+    date.getMonth() === reference.getMonth();
+};
+
+const getVentaFecha = (venta) => venta.fechaRegistro || venta.createdAt || venta.fecha;
+const getMoneyValue = (value) => Number(value) || 0;
+const getVentaIngreso = (venta) => {
+  const abono = getMoneyValue(venta.abono);
+  return abono > 0 ? abono : getMoneyValue(venta.total);
+};
+
+const getPacienteNombreKey = (paciente) => {
+  return `${paciente.nombre || ''} ${paciente.apellido || ''}`
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, ' ');
+};
 
 const Home = () => {
   // ====================================================
@@ -20,9 +58,14 @@ const Home = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [ventas, setVentas] = useState([]);
   const [citas, setCitas] = useState([]);
+  const [pacientes, setPacientes] = useState([]);
+  const [gastos, setGastos] = useState([]);
   const [inventario, setInventario] = useState([]);
+  const [materiales, setMateriales] = useState([]);
+  const [lentesContacto, setLentesContacto] = useState([]);
   const [loadingVentas, setLoadingVentas] = useState(true);
   const [loadingCitas, setLoadingCitas] = useState(true);
+  const [loadingInventario, setLoadingInventario] = useState(true);
 
   // Obtener datos al cargar el componente
   useEffect(() => {
@@ -35,14 +78,27 @@ const Home = () => {
         // Obtener citas
         await getCitasJs(setCitas);
         setLoadingCitas(false);
+        await getGastosjs(setGastos);
         
-        // Obtener inventario
-        // await getInventariojs(setInventario);
+        // Obtener inventario y catálogos relacionados
+        const [inventarioResult, materialesResult, lentesContactoResult, pacientesResult] = await Promise.allSettled([
+          getInventario(),
+          getMaterial(),
+          getLentesContacto(),
+          getPaciente()
+        ]);
+
+        setInventario(inventarioResult.status === 'fulfilled' ? inventarioResult.value : []);
+        setMateriales(materialesResult.status === 'fulfilled' ? materialesResult.value : []);
+        setLentesContacto(lentesContactoResult.status === 'fulfilled' ? lentesContactoResult.value : []);
+        setPacientes(pacientesResult.status === 'fulfilled' ? pacientesResult.value : []);
+        setLoadingInventario(false);
         
       } catch (error) {
         console.error('Error al cargar datos:', error);
         setLoadingVentas(false);
         setLoadingCitas(false);
+        setLoadingInventario(false);
       }
     };
     
@@ -58,9 +114,9 @@ const Home = () => {
   // ====================================================
 
   // Procesar y filtrar citas pendientes para hoy
-  const hoy = new Date().toLocaleDateString();
+  const hoy = new Date();
   const citasHoy = citas.filter(c => 
-    new Date(c.fechaHora).toLocaleDateString() === hoy && 
+    isSameDay(c.fechaHora, hoy) && 
     c.estado === 'PENDIENTE'
   ).sort((a, b) => new Date(a.fechaHora) - new Date(b.fechaHora));
 
@@ -77,26 +133,36 @@ const Home = () => {
 
   // Filtrar ventas del día
   const ventasHoy = ventas.filter(v => 
-    new Date(v.createdAt).toLocaleDateString() === hoy
+    isSameDay(getVentaFecha(v), hoy)
   );
 
-  // Calcular ingresos del día
-  const ingresosHoy = ventasHoy.reduce((sum, v) => sum + v.total, 0);
+  // Calcular métricas mensuales
+  const pacientesNuevosMes = new Set(
+    pacientes
+      .filter(p => isSameMonth(p.fechaRegistro, hoy))
+      .map(getPacienteNombreKey)
+      .filter(Boolean)
+  ).size;
+  const ventasMes = ventas.filter(v => isSameMonth(getVentaFecha(v), hoy));
+  const gastosMes = gastos.filter(g => isSameMonth(g.fecha, hoy));
+  const ingresosMes = ventasMes.reduce((sum, v) => sum + getVentaIngreso(v), 0);
+  const egresosMes = gastosMes.reduce((sum, g) => sum + getMoneyValue(g.monto), 0);
+  const utilidadMes = ingresosMes - egresosMes;
 
   // Procesar ventas para mostrar
   const procesarVenta = (venta) => ({
     id: venta.idVenta,
     client: venta.nombrePaciente || 'Cliente no especificado',
-    amount: `$${(Number(venta.total) || 0).toFixed(2)}`,
+    amount: `$${getVentaIngreso(venta).toFixed(2)}`,
     products: venta.Cotizacion?.detalles?.map(d => d.Producto?.nombre).join(', ') || 'Productos no especificados',
     status: venta.estado === 'LIQUIDADO' ? 'liquidado' : 'pendiente',
-    date: new Date(venta.createdAt).toLocaleDateString(),
+    date: toValidDate(getVentaFecha(venta))?.toLocaleDateString() || 'Sin fecha',
     raw: venta
   });
 
   // Ventas recientes (últimas 3)
   const recentSales = [...ventas]
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .sort((a, b) => new Date(getVentaFecha(b)) - new Date(getVentaFecha(a)))
     .slice(0, 3)
     .map(procesarVenta);
 
@@ -120,7 +186,7 @@ const Home = () => {
     },
     { 
       title: "Pacientes Nuevos", 
-      value: citas.filter(c => c.Paciente?.esNuevo).length || 3, 
+      value: pacientesNuevosMes, 
       icon: <FaUserInjured />, 
       trend: 'steady', 
       link: 'pacientes', 
@@ -128,7 +194,7 @@ const Home = () => {
     },
     { 
       title: "Exámenes", 
-      value: citas.filter(c => c.motivo?.includes('Examen')).length || 15, 
+      value: citas.filter(c => c.motivo?.toLowerCase().includes('examen') && isSameMonth(c.fechaHora, hoy)).length, 
       icon: <FaEye />, 
       trend: 'up', 
       link: 'examenes', 
@@ -144,22 +210,47 @@ const Home = () => {
     },
     { 
       title: "Ingresos", 
-      value: `$${ingresosHoy.toFixed(2)}`, 
+      value: `$${utilidadMes.toFixed(2)}`, 
       icon: <FaMoneyBillWave />, 
-      trend: ingresosHoy > 0 ? 'up' : 'steady', 
+      trend: utilidadMes < 0 ? 'down' : utilidadMes > 0 ? 'up' : 'steady', 
       link: 'ventas', 
-      color: 'var(--green)' 
+      color: utilidadMes < 0 ? 'var(--danger)' : 'var(--success)',
+      valueColor: utilidadMes < 0 ? 'var(--danger)' : 'var(--dark)'
     }
   ];
 
   // ====================================================
-  // DATOS DE INVENTARIO (ejemplo)
+  // DATOS DE INVENTARIO
   // ====================================================
+  const stockBajoLimite = 2;
+  const totalArmazones = inventario.reduce((total, item) => total + (Number(item.cantidad) || 0), 0);
+  const armazonesBajoStock = inventario.filter(item => (Number(item.cantidad) || 0) <= stockBajoLimite).length;
+
   const inventoryStatus = [
-    { category: 'Armazones', total: 45, lowStock: 2, color: 'var(--purple)' },
-    { category: 'Lentes', total: 120, lowStock: 5, color: 'var(--blue)' },
-    { category: 'Contacto', total: 35, lowStock: 1, color: 'var(--teal)' },
-    { category: 'Soluciones', total: 28, lowStock: 0, color: 'var(--green)' }
+    {
+      category: 'Armazones',
+      total: totalArmazones,
+      lowStock: armazonesBajoStock,
+      color: 'var(--purple)',
+      path: '/inventario',
+      progress: totalArmazones > 0 ? Math.max(0, 100 - (armazonesBajoStock / inventario.length * 100)) : 0
+    },
+    {
+      category: 'Materiales Lentes',
+      total: materiales.length,
+      lowStock: 0,
+      color: 'var(--blue)',
+      path: '/material',
+      progress: materiales.length > 0 ? 100 : 0
+    },
+    {
+      category: 'Lentes de Contacto',
+      total: lentesContacto.length,
+      lowStock: 0,
+      color: 'var(--teal)',
+      path: '/lentesContacto',
+      progress: lentesContacto.length > 0 ? 100 : 0
+    }
   ];
 
   const quickAccessItems = [
@@ -193,7 +284,7 @@ const Home = () => {
               {stat.icon}
             </div>
             <div className="custom-stat-info">
-              <h3>{stat.value}</h3>
+              <h3 style={{ color: stat.valueColor || 'var(--dark)' }}>{stat.value}</h3>
               <p>{stat.title}</p>
             </div>
             <div className={`custom-stat-trend ${stat.trend}`}>
@@ -286,27 +377,36 @@ const Home = () => {
             <h4>Estado del Inventario</h4>
           </div>
           <div className="custom-card-body">
-            {inventoryStatus.map((item, index) => (
-              <div key={index} className="custom-inventory-item">
-                <div className="custom-inventory-header">
-                  <h5>{item.category}</h5>
-                  {item.lowStock > 0 && <span className="custom-low-stock-alert">!</span>}
-                </div>
-                <div className="custom-inventory-stats">
-                  <span className="custom-total">Total: {item.total}</span>
-                  {item.lowStock > 0 && <span className="custom-low-stock">Bajo stock: {item.lowStock}</span>}
-                </div>
-                <div className="custom-progress-bar">
-                  <div 
-                    className="custom-progress-fill" 
-                    style={{ 
-                      width: `${100 - (item.lowStock / item.total * 100)}%`,
-                      backgroundColor: item.color
-                    }}
-                  ></div>
-                </div>
-              </div>
-            ))}
+            {loadingInventario ? (
+              <div className="text-center py-3">Cargando inventario...</div>
+            ) : (
+              inventoryStatus.map((item, index) => (
+                <NavLink
+                  key={index}
+                  to={item.path}
+                  className="custom-inventory-item"
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  <div className="custom-inventory-header">
+                    <h5>{item.category}</h5>
+                    {item.lowStock > 0 && <span className="custom-low-stock-alert">!</span>}
+                  </div>
+                  <div className="custom-inventory-stats">
+                    <span className="custom-total">Total: {item.total}</span>
+                    {item.lowStock > 0 && <span className="custom-low-stock">Bajo stock: {item.lowStock}</span>}
+                  </div>
+                  <div className="custom-progress-bar">
+                    <div 
+                      className="custom-progress-fill" 
+                      style={{ 
+                        width: `${item.progress}%`,
+                        backgroundColor: item.color
+                      }}
+                    ></div>
+                  </div>
+                </NavLink>
+              ))
+            )}
           </div>
         </div>
 
