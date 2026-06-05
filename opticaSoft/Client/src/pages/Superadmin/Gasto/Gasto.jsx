@@ -54,14 +54,14 @@ function Gasto() {
   };
 
   const handleUpdate = () => {
-    updateGastojs(selectedGasto.idGasto, categoria, descripcion, monto, fecha, metodoPago, setShowEditModal, () => {
+    updateGastojs(selectedGasto.id_Gasto, categoria, descripcion, monto, fecha, metodoPago, setShowEditModal, () => {
       getGastosjs(setGastos);
       getResumenMensualjs(mes, anio, setResumen);
     });
   };
 
   const handleDelete = () => {
-    deleteGastojs(selectedGasto.idGasto, setShowDeleteModal, () => {
+    deleteGastojs(selectedGasto.id_Gasto, setShowDeleteModal, () => {
       getGastosjs(setGastos);
       getResumenMensualjs(mes, anio, setResumen);
     });
@@ -142,7 +142,7 @@ function Gasto() {
             </thead>
             <tbody>
               {filteredGastos.length > 0 ? filteredGastos.map((g) => (
-                <tr key={g.idGasto}>
+                <tr key={g.id_Gasto}>
                   <td><span className="badge bg-secondary">{g.categoria}</span></td>
                   <td>{g.descripcion}</td>
                   <td>${parseFloat(g.monto).toLocaleString('es-MX', { minimumFractionDigits: 2 })}</td>
