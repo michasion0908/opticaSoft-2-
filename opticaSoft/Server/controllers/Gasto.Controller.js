@@ -32,7 +32,7 @@ export const createGasto = async (req, res) => {
       INSERT INTO Gasto (categoria, descripcion, monto, fecha, metodoPago)
       VALUES (?, ?, ?, ?, ?)
     `, [categoria, descripcion, monto, fecha, metodoPago]);
-    res.status(201).json({ message: "Gasto registrado", idGasto: result.insertId });
+    res.status(201).json({ message: "Gasto registrado", id_Gasto: result.insertId });
   } catch (error) {
   console.error("ERROR createGasto:", error.message, error.sqlMessage);
   res.status(500).json({ message: "Error al registrar gasto", error: error.message });
@@ -41,12 +41,12 @@ export const createGasto = async (req, res) => {
 
 export const updateGasto = async (req, res) => {
   try {
-    const { idGasto } = req.params;
+    const { id_Gasto } = req.params;
     const { categoria, descripcion, monto, fecha, metodoPago } = req.body;
     await db.query(`
       UPDATE Gasto SET categoria=?, descripcion=?, monto=?, fecha=?, metodoPago=?
-      WHERE idGasto=?
-    `, [categoria, descripcion, monto, fecha, metodoPago, idGasto]);
+      WHERE id_Gasto=?
+    `, [categoria, descripcion, monto, fecha, metodoPago, id_Gasto]);
     res.json({ message: "Gasto actualizado" });
   } catch (error) {
     res.status(500).json({ message: "Error al actualizar gasto", error: error.message });
@@ -55,8 +55,8 @@ export const updateGasto = async (req, res) => {
 
 export const deleteGasto = async (req, res) => {
   try {
-    const { idGasto } = req.params;
-    await db.query("DELETE FROM Gasto WHERE idGasto = ?", [idGasto]);
+    const { id_Gasto } = req.params;
+    await db.query("DELETE FROM Gasto WHERE id_Gasto = ?", [id_Gasto]);
     res.json({ message: "Gasto eliminado" });
   } catch (error) {
     res.status(500).json({ message: "Error al eliminar gasto", error: error.message });
