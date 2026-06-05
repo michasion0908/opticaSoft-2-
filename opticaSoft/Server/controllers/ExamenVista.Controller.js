@@ -12,7 +12,9 @@ export const getExamenVista = async (req, res) => {
       FROM ExamenVista ev
       LEFT JOIN Paciente p ON ev.idPaciente = p.idPaciente
       JOIN Optometrista o ON ev.idOptometrista = o.idOptometrista
+      ORDER BY ev.idExamenVista DESC
     `;
+    
 
     const [rows] = await db.query(query);
     if (rows.length > 0) {
