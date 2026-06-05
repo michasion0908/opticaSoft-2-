@@ -34,8 +34,9 @@ export const createGasto = async (req, res) => {
     `, [categoria, descripcion, monto, fecha, metodoPago]);
     res.status(201).json({ message: "Gasto registrado", idGasto: result.insertId });
   } catch (error) {
-    res.status(500).json({ message: "Error al registrar gasto", error: error.message });
-  }
+  console.error("ERROR createGasto:", error.message, error.sqlMessage);
+  res.status(500).json({ message: "Error al registrar gasto", error: error.message });
+}
 };
 
 export const updateGasto = async (req, res) => {
